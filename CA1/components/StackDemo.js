@@ -5,6 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import CountChange from './CountChange';
 import TodoList from './TodoList';
 import Food from './Food';
+import Weather from './Weather';
 
 const Stack = createNativeStackNavigator();
 
@@ -12,9 +13,9 @@ const HomeScreen = ({navigation}) => {
     return (
      <View>
             <Button
-                title="Go to Yuxuan's profile"
+                title="Go to Team's profile"
                 onPress={() =>
-                navigation.navigate('Profile', {name: 'Yuxuan Xiong'})
+                navigation.navigate('Profile', {name: 'Yuxuan Xiong and Weixuan Zhang'})
                 }
             />
             <Button
@@ -41,6 +42,12 @@ const HomeScreen = ({navigation}) => {
                 navigation.navigate('FoodRecommendation') 
                 }
             />
+            <Button
+                title="Weather Check"
+                onPress={() =>
+                navigation.navigate('WeatherCheck') 
+                }
+            />
       </View>
     );
   };
@@ -50,7 +57,7 @@ const HomeScreen = ({navigation}) => {
   };
 
   const intro = ({navigation}) => {
-    return <Text>This is an app developed by Yuxuan Xiong, whcih the user can input somethings he or she need to do
+    return <Text>This is an app developed by Yuxuan Xiong and Weixuan Zhang, whcih the user can input somethings he or she need to do
       after that, when user complete it, they can change the status of it into complete, and also they can level the importance of each things ther
       need to do.
     </Text>;
@@ -70,6 +77,7 @@ const MyStack = () => {
         <Stack.Screen name="CountChange" component={CountChange} />
         <Stack.Screen name="TodoList" component={TodoList} />
         <Stack.Screen name="FoodRecommendation" component={Food} />
+        <Stack.Screen name="WeatherCheck" component={Weather} />
       </Stack.Navigator>
     </NavigationContainer>
   );

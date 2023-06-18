@@ -4,6 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import CountChange from './CountChange';
 import TodoList from './TodoList';
+import APIdemo from'./APIdemo';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +35,12 @@ const HomeScreen = ({navigation}) => {
                 navigation.navigate('TodoList') 
                 }
             />
+            <Button
+                title="Food Recommandation"
+                onPress={() =>
+                navigation.navigate('APIdemo') 
+                }
+            />
       </View>
     );
   };
@@ -62,6 +69,7 @@ const MyStack = () => {
         <Stack.Screen name="Introduction" component={intro} />
         <Stack.Screen name="CountChange" component={CountChange} />
         <Stack.Screen name="TodoList" component={TodoList} />
+        <Stack.Screen name="Food Recommandation" component={APIdemo} />
       </Stack.Navigator>
     </NavigationContainer>
   );

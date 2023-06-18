@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, Text, TextInput, FlatList } from 'react-native';
+import { View, Button, Text, TextInput, FlatList, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const App = () => {
@@ -13,7 +13,6 @@ const App = () => {
   const readData = async () => {
     try {
       const storedTodos = await AsyncStorage.getItem('todos')
-
       if (storedTodos !== null) {
         setTodos(JSON.parse(storedTodos))
       }
@@ -39,6 +38,13 @@ const App = () => {
     }
   };
 
+  const deleteTodo = (index) => {
+    let updatedTodos = [...todos];
+    updatedTodos.splice(index, 1);
+    setTodos(updatedTodos);
+    storeData(updatedTodos);
+  };
+
   return (
     <View style={{ padding: 20 }}>
       <Text style={{ fontSize: 40 }}>TodoList</Text>
@@ -57,10 +63,13 @@ const App = () => {
 
       <FlatList 
         data={todos}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 30 }}>
-            <Text style={{ fontSize: 20, marginLeft: 500 }}>{item.name}</Text>
-            <Text style={{ marginLeft: 500 }}>{item.completed ? 'Completed' : 'Not Completed'}</Text>
+            <Text style={{ fontSize: 20, marginRight: 10 }}>{item.name}</Text>
+            <Text style={{ marginRight: 10 }}>{item.completed ? 'Completed' : 'Not Completed'}</Text>
+            <TouchableOpacity onPress={() => deleteTodo(index)}>
+              <Text style={{ color: 'red' }}>Delete</Text>
+            </TouchableOpacity>
           </View>
         )}
       />

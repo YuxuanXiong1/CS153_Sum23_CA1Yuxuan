@@ -7,9 +7,7 @@ const App = () => {
   const [newTodo, setNewTodo] = useState("");
   const [importanceLevel, setImportanceLevel] = useState("1");
 
-  useEffect(() => {
-    readData()
-  }, [])
+  useEffect(() => {readData()}, [])
 
   const readData = async () => {
     try {

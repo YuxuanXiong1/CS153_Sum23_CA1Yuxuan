@@ -1,13 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Button, Text, TextInput, FlatList } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const App = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
 
+  useEffect(() => {
+    readData()
+  }, [])
+
+  const readData = async () => {
+    try {
+      const storedTodos = await AsyncStorage.getItem('todos')
+
+      if (storedTodos !== null) {
+        setTodos(JSON.parse(storedTodos))
+      }
+    } catch (e) {
+      console.log('Failed to fetch the data from storage')
+    }
+  }
+
+  const storeData = async (todos) => {
+    try {
+      await AsyncStorage.setItem('todos', JSON.stringify(todos))
+    } catch (e) {
+      console.log('Failed to save the data to the storage')
+    }
+  }
+
   const addTodo = () => {
     if (newTodo.length > 0) {
-      setTodos([...todos, { name: newTodo, completed: false }]);
+      const updatedTodos = [...todos, { name: newTodo, completed: false }];
+      setTodos(updatedTodos);
+      storeData(updatedTodos);
       setNewTodo("");
     }
   };

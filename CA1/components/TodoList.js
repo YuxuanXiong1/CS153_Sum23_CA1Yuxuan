@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, Text, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Button, Text, TextInput, FlatList, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -84,8 +84,8 @@ const TodoList = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.halfContainer}>
+    <ScrollView style={styles.container}>
+      <ScrollView style={styles.halfContainer}>
         <Text style={{ fontSize: 40 }}>TodoList</Text>
         
         <TextInput 
@@ -113,6 +113,10 @@ const TodoList = () => {
           onPress={addTodo}
         />
 
+        <Text style={styles.or}>
+          or
+        </Text>
+
         <Button 
           title="Ask GPT"
           onPress={getResponse}
@@ -134,7 +138,7 @@ const TodoList = () => {
             </View>
           )}
         />
-      </View>
+      </ScrollView>
 
       <View style={styles.halfContainer}>
         <Text style={styles.gptResponseText}>
@@ -143,14 +147,14 @@ const TodoList = () => {
           ))}
         </Text>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   halfContainer: {
     flex: 1,
@@ -166,6 +170,7 @@ const styles = StyleSheet.create({
   picker: {
     height: 50,
     width: 100,
+    padding: 10,
   },
   todoItem: {
     flexDirection: 'row',
@@ -181,6 +186,10 @@ const styles = StyleSheet.create({
   },
   gptResponseText: {
     fontSize: 16,
+  },
+  or: {
+    alignSelf: 'center',
+    fontSize: 24,
   },
 });
 

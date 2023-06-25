@@ -1,60 +1,74 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View} from "react-native";
+import { StyleSheet, View, Image, Button, Alert } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 
-
-import Button from './components/Button';
-import ImageViewer from './components/ImageViewer';
-
-const PlaceholderImage = require("./assets/images/background-image.png");
-
 export default function App() {
+  const [selectedImage, setSelectedImage] = useState(null);
 
-    const pickImageAsync = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-          allowsEditing: true,
-          quality: 1,
-        });
+  const pickImageAsync = async () => {
+    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     
-        if (!result.canceled) {
-          console.log(result);
-        } else {
-          alert('You did not select any image.');
-        }
-      };
+    if (!permissionResult.granted) {
+      Alert.alert(
+        'Permission Denied',
+        'Permission to access camera roll is required!',
+        [{ text: 'OK' }]
+      );
+      return;
+    }
 
-    return (
-      <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <ImageViewer placeholderImageSource={PlaceholderImage} />
-        </View>
-        <View style={styles.footerContainer}>
-          <Button theme="primary" label="Choose a photo" onPress={pickImageAsync} />
-          <Button label="Use this photo" />
-        </View>
-        <StatusBar style="auto" />
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setSelectedImage(result.uri);
+    } else {
+      Alert.alert(
+        'No Image Selected',
+        'You did not select any image.',
+        [{ text: 'OK' }]
+      );
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.imageContainer}>
+        {selectedImage ? (
+          <Image source={{ uri: selectedImage }} style={styles.image} />
+        ) : (
+          <Image source={require("./assets/images/background-image.png")} style={styles.image} />
+        )}
       </View>
-    );
-  }
+      <View style={styles.footerContainer}>
+        <Button title="Choose a photo" onPress={pickImageAsync} />
+        <Button title="Use this photo" disabled={!selectedImage} />
+      </View>
+      <StatusBar style="auto" />
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
-    footerContainer: {
-        flex: 1 / 3,
-        alignItems: 'center',
-      },
-    container: {
-      flex: 1,
-      backgroundColor: '#25292e',
-      alignItems: 'center',
-    },
-    imageContainer: {
-      flex: 1,
-      paddingTop: 58,
-    },
-    image: {
-      width: 320,
-      height: 440,
-      borderRadius: 18,
-    },
-  });
+  footerContainer: {
+    flex: 1 / 3,
+    alignItems: 'center',
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#25292e',
+    alignItems: 'center',
+  },
+  imageContainer: {
+    flex: 1,
+    paddingTop: 58,
+  },
+  image: {
+    width: 320,
+    height: 440,
+    borderRadius: 18,
+  },
+});

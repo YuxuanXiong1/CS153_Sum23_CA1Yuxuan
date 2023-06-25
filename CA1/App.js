@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Image, Button, Alert } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, Text, Alert } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 
@@ -44,8 +44,12 @@ export default function App() {
         )}
       </View>
       <View style={styles.footerContainer}>
-        <Button title="Choose a photo" onPress={pickImageAsync} />
-        <Button title="Use this photo" disabled={!selectedImage} />
+        <TouchableOpacity style={styles.button} onPress={pickImageAsync}>
+          <Text style={styles.buttonText}>Choose a photo</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} disabled={!selectedImage}>
+          <Text style={styles.buttonText}>Use this photo</Text>
+        </TouchableOpacity>
       </View>
       <StatusBar style="auto" />
     </View>
@@ -70,5 +74,16 @@ const styles = StyleSheet.create({
     width: 320,
     height: 440,
     borderRadius: 18,
+  },
+  button: {
+    backgroundColor: '#2196F3',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

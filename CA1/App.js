@@ -1,7 +1,7 @@
 import React from 'react';
 import {View,Text} from 'react-native';
 
-import KeyPad from './components/StackDemo';
+import KeyPad from './components/Home';
 
 const App = () => {
     return (

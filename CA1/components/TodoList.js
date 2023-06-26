@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, Text, TextInput, FlatList, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Button, Text, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -84,11 +84,11 @@ const TodoList = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <ScrollView style={styles.halfContainer}>
+    <View style={styles.container}>
+      <View style={styles.halfContainer}>
         <Text style={{ fontSize: 40 }}>TodoList</Text>
-        
-        <View style={{flexDirection:'row', alignSelf:'center'}}>
+
+        <View style={styles.inputArea}>
           <TextInput 
             style={styles.input}
             onChangeText={text => setNewTodo(text)}
@@ -139,7 +139,7 @@ const TodoList = () => {
             </View>
           )}
         />
-      </ScrollView>
+      </View>
 
       <View style={styles.halfContainer}>
         <Text style={styles.gptResponseText}>
@@ -148,12 +148,13 @@ const TodoList = () => {
           ))}
         </Text>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    padding: 10,
     flex: 1,
     flexDirection: 'column',
   },
@@ -162,17 +163,23 @@ const styles = StyleSheet.create({
     padding: 20,
     flexDirection: 'column',
   },
+  inputArea: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
   input: {
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
     marginBottom: 20,
     padding: 10,
+    flex: 3,
   },
   picker: {
     height: 50,
     width: 100,
     padding: 10,
+    flex: 1,
   },
   todoItem: {
     flexDirection: 'row',

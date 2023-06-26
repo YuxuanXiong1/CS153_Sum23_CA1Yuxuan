@@ -33,7 +33,7 @@ export default function Button({ label, theme, onPress }) {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    width: 320,
+    width: 180,
     height: 68,
     marginHorizontal: 20,
     alignItems: 'center',

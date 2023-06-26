@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Todo from './TodoList';
 import ChatGPTDemo from './ChatGPTDemo';  
-import Profile from './Profile';
+import Photo from './PhotoRecorder';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +14,7 @@ const App = () => {
       <Tab.Navigator>
         <Tab.Screen name="Todo" component={Todo}/>
         <Tab.Screen name="Chat" component={ChatGPTDemo}/>
-        <Tab.Screen name="Profile" component={Profile}/>
+        <Tab.Screen name="Photo Recorder" component={Photo}/>
       </Tab.Navigator>
     </NavigationContainer>
   );

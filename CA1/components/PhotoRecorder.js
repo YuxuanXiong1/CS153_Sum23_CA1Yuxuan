@@ -109,7 +109,6 @@ const ImagePickerScreen = () => {
         keyExtractor={item => item.timestamp}
         contentContainerStyle={styles.listContainer}
       />
-      <StatusBar style="auto" />
 
       <Modal
         animationType="slide"

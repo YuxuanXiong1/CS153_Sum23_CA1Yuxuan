@@ -1,1 +1,1 @@
-export default "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"
+export default ""

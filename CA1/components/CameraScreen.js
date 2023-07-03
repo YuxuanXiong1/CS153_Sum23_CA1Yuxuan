@@ -11,9 +11,7 @@ export default function CameraScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  useEffect(() => {
-    retrieveData();
-  }, []);
+  useEffect(() => {retrieveData();}, []);
 
   const retrieveData = async () => {
     try {

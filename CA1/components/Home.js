@@ -8,7 +8,7 @@ import PhotoRecorder from './PhotoRecorder';
 import CameraScreen from './CameraScreen';  
 
 const Tab = createBottomTabNavigator();
-
+//here is the mainpage for our program
 const App = () => {
   return (
     <NavigationContainer>

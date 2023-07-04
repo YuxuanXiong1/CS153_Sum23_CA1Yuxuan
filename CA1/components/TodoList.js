@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, Text, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Button, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -69,7 +69,7 @@ const TodoList = () => {
       }
       const msg_data = {
         "model": "gpt-3.5-turbo",
-        "messages": [{"role": "user", "content": newTodo}],
+        "messages": [{"role": "user", "content": 'Can you give some advise of doing this?' + newTodo}],
         "temperature": 0.7
       }
       const response = await axios.post(url, msg_data, config)
@@ -142,11 +142,13 @@ const TodoList = () => {
       </View>
 
       <View style={styles.halfContainer}>
-        <Text style={styles.gptResponseText}>
-          {data.choices && data.choices.map((choice, index) => (
-            <Text key={index}>{choice.message.content}</Text>
-          ))}
-        </Text>
+        <ScrollView style={styles.gptResponseContainer}>
+          <Text style={styles.gptResponseText}>
+            {data.choices && data.choices.map((choice, index) => (
+              <Text key={index}>{choice.message.content}</Text>
+            ))}
+          </Text>
+        </ScrollView>
       </View>
     </View>
   );
@@ -182,7 +184,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   todoItem: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     marginBottom: 30,
   },
@@ -193,8 +195,16 @@ const styles = StyleSheet.create({
   deleteText: {
     color: 'red',
   },
+  gptResponseContainer: {
+    flex: 1,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+  },
   gptResponseText: {
     fontSize: 16,
+    flexWrap: 'wrap',
   },
   or: {
     alignSelf: 'center',

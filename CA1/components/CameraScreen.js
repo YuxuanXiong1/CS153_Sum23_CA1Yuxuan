@@ -10,8 +10,18 @@ export default function CameraScreen() {
   const [photoList, setPhotoList] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredPhotos, setFilteredPhotos] = useState([]);
 
-  useEffect(() => {retrieveData();}, []);
+  useEffect(() => {
+    retrieveData();
+  }, []);
+
+  useEffect(() => {
+    setFilteredPhotos(photoList.filter(photo => 
+      photo.name.toLowerCase().includes(searchTerm.toLowerCase())
+    ));
+  }, [photoList, searchTerm]);
 
   const retrieveData = async () => {
     try {
@@ -58,6 +68,13 @@ export default function CameraScreen() {
     }
   }
 
+  const deleteItem = async (timestamp) => {
+    const newList = photoList.filter(item => item.timestamp !== timestamp);
+    setPhotoList(newList);
+    await AsyncStorage.setItem('photoList', JSON.stringify(newList));
+    setModalVisible(false);
+  };
+
   const ListItem = ({ item }) => (
     <TouchableOpacity style={styles.listItem} onPress={() => { setSelectedItem(item); setModalVisible(true); }}>
       <Text style={styles.text}>{item.name}</Text>
@@ -76,8 +93,16 @@ export default function CameraScreen() {
         placeholder='Enter photo name'
       />
       <Button title="Save Photo" onPress={savePhoto} />
+
+      <TextInput
+        style={styles.input}
+        onChangeText={setSearchTerm}
+        value={searchTerm}
+        placeholder='Search photo by name'
+      />
+
       <FlatList
-        data={photoList}
+        data={filteredPhotos}
         renderItem={ListItem}
         keyExtractor={item => item.timestamp}
       />
@@ -89,6 +114,7 @@ export default function CameraScreen() {
         <View style={styles.modalView}>
           <Image source={{ uri: selectedItem?.uri }} style={styles.image} />
           <Text style={styles.modalText}>{selectedItem?.name}</Text>
+          <Button title="Delete" onPress={() => deleteItem(selectedItem?.timestamp)} color="#ff0000" />
           <Button title="Close" onPress={() => setModalVisible(false)} />
         </View>
       </Modal>
